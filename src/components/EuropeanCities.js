@@ -10,7 +10,7 @@ export function EuropeanCities() {
   function getWeatherInfo(selectedCity) {
     setLoading(true);
     axios({
-      url: `${api.base}/forecast?q=${selectedCity}&cnt=7&units=metric&APPID=${api.key}`,
+      url: `${api.base}/forecast?q=${selectedCity}&cnt=16&units=metric&APPID=${api.key}`,
       method: "GET",
     })
       .then((res) => {
@@ -122,43 +122,43 @@ export function EuropeanCities() {
           Oslo
         </button>
         <div className=" text-center ">
-          {weather &&
-            loading === false &&
-            weather.list.map((w, i) => {
-              return (
-                <Container
-                  fluid="md"
-                  className="m-auto border border-dark w-100 p-3 mt-5 "
-                >
-                  <h1>{dateBuilder(new Date(w.dt_txt))}</h1>
-                  <Table>
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>City</th>
-                        <th>Country</th>
-                        <th>Temperature</th>
-                        <th>Weather</th>
-                        <th>icon</th>
-                        <th>date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
+          <Container
+            fluid="md"
+            className="m-auto border border-dark w-100 p-3 mt-5"
+          >
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>City</th>
+                  <th>Country</th>
+                  <th>Temperature</th>
+                  <th>Weather</th>
+                  <th>Date</th>
+                  <th>Date/Hours</th>
+                </tr>
+              </thead>
+              <tbody>
+                {weather &&
+                  loading === false &&
+                  weather.list.map((w, i) => {
+                    return (
+                      <tr className="border border-dark ">
                         <td></td>
                         <td>{weather.city.name}</td>
                         <td>{weather.city.country}</td>
                         <td>{Math.round(w.main.temp)}°c</td>
                         <td>{w.weather[0].main}</td>
-                        <td>{w.weather[0].icon}</td>
+                        <td> {dateBuilder(new Date(w.dt_txt))}</td>
 
                         <td> {convertTime(w.dt)}</td>
                       </tr>
-                    </tbody>
-                  </Table>
-                </Container>
-              );
-            })}
+                    );
+                  })}
+              </tbody>
+            </Table>
+          </Container>
+
           {loading}
         </div>
       </div>
